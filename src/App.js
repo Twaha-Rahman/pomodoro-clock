@@ -6,21 +6,30 @@ function App() {
   return (
     <div className="clock-container">
       <h1>Pomodoro Clock</h1>
-      <div className="break-container">
-        <h4 className="break-label">Break Length</h4>
-        <div className="break-setter-container">
-          <strong>+</strong>
-          <strong>5</strong>
-          <strong>-</strong>
+
+      <div className="controllers">
+        <div className="controller-container">
+          <h3 id="break-label">Break Length</h3>
+          <div className="setter-container">
+            <i class="fas fa-arrow-up"></i>
+            <strong>5</strong>
+            <i class="fas fa-arrow-down"></i>
+          </div>
+        </div>
+
+        <div className="controller-container">
+          <h3 id="session-label">Session Length</h3>
+          <div className="setter-container">
+            <i class="fas fa-arrow-up"></i>
+            <strong>25</strong>
+            <i class="fas fa-arrow-down"></i>
+          </div>
         </div>
       </div>
-      <div className="session-container">
-        <h4 className="session-label">Break Length</h4>
-        <div className="session-setter-container">
-          <strong>+</strong>
-          <strong>25</strong>
-          <strong>-</strong>
-        </div>
+
+      <div className="timer-container">
+        <h2 id="timer-label">Session</h2>
+        <h1>1:00</h1>
       </div>
     </div>
   );

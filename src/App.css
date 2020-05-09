@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@531&display=swap');
+
 body {
+  font-family: 'Roboto Slab', serif;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -8,7 +11,37 @@ body {
 }
 
 .clock-container {
+  text-align: center;
+  padding: 1.5rem;
   height: 75vh;
   width: 80vw;
-  background: rgb(195, 175, 175);
+  background: #17b978;
+}
+
+.controllers {
+  display: flex;
+  justify-content: space-around;
+}
+
+.controller-container {
+  background: #a7ff83;
+  padding: 0.5rem;
+}
+
+.controller-container h3 {
+  margin-top: 0;
+}
+
+.controller-container {
+  font-size: 1.25rem;
+}
+
+.setter-container i {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  font-size: 1.25em;
+}
+
+.timer-container {
+  background: #a7ff83;
 }
