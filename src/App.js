@@ -6,7 +6,7 @@ function repeater(number) {
   let minuteInStringArr = number.toString().split('');
 
   if (minuteInStringArr.length < 2) {
-    minuteInStringArr.push(0);
+    minuteInStringArr.unshift(0);
   }
 
   let minuteString = minuteInStringArr.join('');
@@ -29,6 +29,8 @@ function timeFormatter(timeInSeconds) {
 }
 
 function App() {
+  let [sessionState, setSessionState] = useState(true);
+
   let [isTimerRunning, setTimerRunningState] = useState(false);
   let [sessionTime, setSessionTime] = useState(25);
   let [breakTime, setBreakTime] = useState(5);
@@ -135,7 +137,13 @@ function App() {
           onClick={() => {
             setTimerRunningState(!isTimerRunning);
             const ref = window.setInterval(() => {
-              setRemainingSessionTime(remainigSessionTime--);
+              if (remainigSessionTime - 1 >= -1) {
+                setRemainingSessionTime(remainigSessionTime--);
+              } else {
+                if (remainigBreakTime - 1 >= -1) {
+                  setRemainigBreakTime(remainigBreakTime--);
+                }
+              }
             }, 1000);
             refToSetInterval.current = ref;
           }}
