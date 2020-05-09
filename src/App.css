@@ -1,0 +1,14 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #086972;
+  margin: 0;
+}
+
+.clock-container {
+  height: 75vh;
+  width: 80vw;
+  background: rgb(195, 175, 175);
+}
