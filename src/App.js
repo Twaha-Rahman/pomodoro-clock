@@ -55,22 +55,26 @@ function App() {
             <button
               id="break-increment"
               onClick={() => {
-                if (!isTimerRunning) {
-                  setBreakTime(breakTimeSync.current + 1);
-                  breakTimeSync.current = breakTimeSync.current + 1;
+                if (!(breakTimeSync.current + 1 > 60)) {
+                  if (!isTimerRunning) {
+                    setBreakTime(breakTimeSync.current + 1);
+                    breakTimeSync.current = breakTimeSync.current + 1;
+                  }
                 }
               }}
             >
               <i className="fas fa-arrow-up"></i>
             </button>
 
-            <strong id="break-length">5</strong>
+            <strong id="break-length">{breakTime}</strong>
             <button
               id="break-decrement"
               onClick={() => {
-                if (!isTimerRunning) {
-                  setBreakTime(breakTimeSync.current - 1);
-                  breakTimeSync.current = breakTimeSync.current - 1;
+                if (!(breakTimeSync.current - 1 < 0)) {
+                  if (!isTimerRunning) {
+                    setBreakTime(breakTimeSync.current - 1);
+                    breakTimeSync.current = breakTimeSync.current - 1;
+                  }
                 }
               }}
             >
@@ -96,7 +100,7 @@ function App() {
               <i className="fas fa-arrow-up"></i>
             </button>
 
-            <strong id="session-length">25</strong>
+            <strong id="session-length">{sessionTime}</strong>
             <button
               id="session-decrement"
               onClick={() => {
