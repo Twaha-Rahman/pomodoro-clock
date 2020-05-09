@@ -44,6 +44,8 @@ function App() {
   const sessionTimeSync = useRef();
   sessionTimeSync.current = sessionTime;
 
+  const refToSetInterval = useRef();
+
   return (
     <div className="clock-container">
       <h1>Pomodoro Clock</h1>
@@ -58,6 +60,7 @@ function App() {
                 if (!(breakTimeSync.current + 1 > 60)) {
                   if (!isTimerRunning) {
                     setBreakTime(breakTimeSync.current + 1);
+                    setRemainigBreakTime((breakTimeSync.current + 1) * 60);
                     breakTimeSync.current = breakTimeSync.current + 1;
                   }
                 }
@@ -70,9 +73,10 @@ function App() {
             <button
               id="break-decrement"
               onClick={() => {
-                if (!(breakTimeSync.current - 1 < 0)) {
+                if (!(breakTimeSync.current - 1 <= 0)) {
                   if (!isTimerRunning) {
                     setBreakTime(breakTimeSync.current - 1);
+                    setRemainigBreakTime((breakTimeSync.current - 1) * 60);
                     breakTimeSync.current = breakTimeSync.current - 1;
                   }
                 }
@@ -92,6 +96,7 @@ function App() {
                 if (!isTimerRunning) {
                   if (!(sessionTimeSync.current + 1 > 60)) {
                     setSessionTime(sessionTimeSync.current + 1);
+                    setRemainingSessionTime((sessionTimeSync.current + 1) * 60);
                     sessionTimeSync.current = sessionTimeSync.current + 1;
                   }
                 }
@@ -104,9 +109,10 @@ function App() {
             <button
               id="session-decrement"
               onClick={() => {
-                if (!(sessionTimeSync.current - 1 < 0)) {
+                if (!(sessionTimeSync.current - 1 <= 0)) {
                   if (!isTimerRunning) {
                     setSessionTime(sessionTimeSync.current - 1);
+                    setRemainingSessionTime((sessionTimeSync.current - 1) * 60);
                     sessionTimeSync.current = sessionTimeSync.current - 1;
                   }
                 }
@@ -128,20 +134,30 @@ function App() {
           id="start_stop"
           onClick={() => {
             setTimerRunningState(!isTimerRunning);
+            const ref = window.setInterval(() => {
+              setRemainingSessionTime(remainigSessionTime--);
+            }, 1000);
+            refToSetInterval.current = ref;
           }}
         >
-          <i className="fas fa-play"></i>
+          <i className="fas fa-play">start</i>
           <i className="fas fa-pause"></i>
         </button>
         <button
           id="reset"
           onClick={() => {
+            if (refToSetInterval.current) {
+              //unregister setInterval
+              window.clearInterval(refToSetInterval.current);
+            }
             setTimerRunningState(false);
             setSessionTime(25);
             setBreakTime(5);
+            setRemainingSessionTime(25 * 60);
+            setRemainigBreakTime(5 * 60);
           }}
         >
-          <i className="fas fa-sync-alt"></i>
+          <i className="fas fa-sync-alt">clear</i>
         </button>
       </div>
     </div>
