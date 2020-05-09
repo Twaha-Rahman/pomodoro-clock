@@ -10,6 +10,17 @@ body {
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+strong,
+i {
+  margin: 0;
+  color: #071a52;
+}
+
 .clock-container {
   text-align: center;
   padding: 1.5rem;
@@ -19,29 +30,47 @@ body {
 }
 
 .controllers {
+  margin-top: 2rem;
   display: flex;
   justify-content: space-around;
 }
 
 .controller-container {
   background: #a7ff83;
-  padding: 0.5rem;
-}
-
-.controller-container h3 {
-  margin-top: 0;
+  padding: 1rem;
+  border-radius: 25px;
 }
 
 .controller-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 10vh;
   font-size: 1.25rem;
+}
+
+.setter-container {
+  font-size: 1.25em;
 }
 
 .setter-container i {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
-  font-size: 1.25em;
 }
 
 .timer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 2rem;
   background: #a7ff83;
+  border-radius: 25px;
+  height: 12.5vh;
+}
+
+.timing-controlls {
+  margin-top: 2rem;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: space-evenly;
 }

@@ -31,6 +31,11 @@ function App() {
         <h2 id="timer-label">Session</h2>
         <h1>1:00</h1>
       </div>
+
+      <div className="timing-controlls">
+        <i class="fas fa-pause"></i>
+        <i class="fas fa-sync-alt"></i>
+      </div>
     </div>
   );
 }
