@@ -167,9 +167,9 @@ function App() {
                   }
 
                   if (signal.current === 'break') {
-                    if (window.breakTimeCount - 1 >= 0) {
-                      window.breakTimeCount--;
+                    if (window.breakTimeCount - 1 >= -1) {
                       setRemainigBreakTime(window.breakTimeCount);
+                      window.breakTimeCount--;
                     } else {
                       console.log(signal.current, window.breakTimeCount);
                       setSessionState('session');
