@@ -29,7 +29,9 @@ function timeFormatter(timeInSeconds) {
 }
 
 function App() {
-  let [sessionState, setSessionState] = useState(true);
+  let [sessionState, setSessionState] = useState('session');
+  let signal = useRef();
+  signal.current = sessionState;
 
   let [isTimerRunning, setTimerRunningState] = useState(false);
   let [sessionTime, setSessionTime] = useState(25);
@@ -37,8 +39,6 @@ function App() {
 
   let [remainigSessionTime, setRemainingSessionTime] = useState(sessionTime * 60);
   let [remainigBreakTime, setRemainigBreakTime] = useState(breakTime * 60);
-
-  let formattedTime = timeFormatter(remainigSessionTime);
 
   const breakTimeSync = useRef();
   breakTimeSync.current = breakTime;
@@ -127,8 +127,10 @@ function App() {
       </div>
 
       <div className="timer-container">
-        <h2 id="timer-label">{sessionState ? 'Session' : 'Break'}</h2>
-        <h1 id="time-left">{formattedTime}</h1>
+        <h2 id="timer-label">{sessionState === 'session' ? 'Session' : 'Break'}</h2>
+        <h1 id="time-left">
+          {sessionState === 'session' ? timeFormatter(remainigSessionTime) : timeFormatter(remainigBreakTime)}
+        </h1>
       </div>
 
       <div className="timing-controlls">
@@ -136,18 +138,34 @@ function App() {
           id="start_stop"
           onClick={() => {
             setTimerRunningState(!isTimerRunning);
+
+            window.sessionTimeCount = sessionTime * 60;
+            window.breakTimeCount = breakTime * 60;
+
             const ref = window.setInterval(() => {
-              if (remainigSessionTime - 1 >= -1) {
-                if (!sessionState) {
-                  setSessionState(!sessionState);
+              if (signal.current === 'session') {
+                if (window.sessionTimeCount - 1 >= 0) {
+                  window.sessionTimeCount--;
+                  setRemainingSessionTime(window.sessionTimeCount);
+                } else {
+                  console.log(signal.current, window.sessionTimeCount);
+                  setSessionState('break');
+                  signal.current = 'break';
+                  setRemainingSessionTime(sessionTime * 60);
+                  window.sessionTimeCount = sessionTime * 60;
                 }
-                setRemainingSessionTime(remainigSessionTime--);
-              } else {
-                if (sessionState) {
-                  setSessionState(setSessionState);
-                }
-                if (remainigBreakTime - 1 >= -1) {
-                  setRemainigBreakTime(remainigBreakTime--);
+              }
+
+              if (signal.current === 'break') {
+                if (window.breakTimeCount - 1 >= 0) {
+                  window.breakTimeCount--;
+                  setRemainigBreakTime(window.breakTimeCount);
+                } else {
+                  console.log(signal.current, window.breakTimeCount);
+                  setSessionState('session');
+                  signal.current = 'session';
+                  setRemainigBreakTime(breakTime * 60);
+                  window.breakTimeCount = breakTime * 60;
                 }
               }
             }, 1000);
@@ -169,6 +187,10 @@ function App() {
             setBreakTime(5);
             setRemainingSessionTime(25 * 60);
             setRemainigBreakTime(5 * 60);
+            signal.current = 'session';
+            window.sessionTimeCount = 25 * 60;
+            window.breakTimeCount = 5 * 60;
+            setSessionState('session');
           }}
         >
           <i className="fas fa-sync-alt">clear</i>
