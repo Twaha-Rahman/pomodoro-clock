@@ -127,7 +127,7 @@ function App() {
       </div>
 
       <div className="timer-container">
-        <h2 id="timer-label">Session</h2>
+        <h2 id="timer-label">{sessionState ? 'Session' : 'Break'}</h2>
         <h1 id="time-left">{formattedTime}</h1>
       </div>
 
@@ -138,8 +138,14 @@ function App() {
             setTimerRunningState(!isTimerRunning);
             const ref = window.setInterval(() => {
               if (remainigSessionTime - 1 >= -1) {
+                if (!sessionState) {
+                  setSessionState(!sessionState);
+                }
                 setRemainingSessionTime(remainigSessionTime--);
               } else {
+                if (sessionState) {
+                  setSessionState(setSessionState);
+                }
                 if (remainigBreakTime - 1 >= -1) {
                   setRemainigBreakTime(remainigBreakTime--);
                 }
