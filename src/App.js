@@ -139,37 +139,49 @@ function App() {
           onClick={() => {
             setTimerRunningState(!isTimerRunning);
 
-            window.sessionTimeCount = sessionTime * 60;
-            window.breakTimeCount = breakTime * 60;
+            if (window.clockIsRunning) {
+              window.clockIsRunning = undefined;
+            } else {
+              window.clockIsRunning = 'running';
+            }
 
-            const ref = window.setInterval(() => {
-              if (signal.current === 'session') {
-                if (window.sessionTimeCount - 1 >= 0) {
-                  window.sessionTimeCount--;
-                  setRemainingSessionTime(window.sessionTimeCount);
-                } else {
-                  console.log(signal.current, window.sessionTimeCount);
-                  setSessionState('break');
-                  signal.current = 'break';
-                  setRemainingSessionTime(sessionTime * 60);
-                  window.sessionTimeCount = sessionTime * 60;
-                }
-              }
+            if (!refToSetInterval.current) {
+              window.sessionTimeCount = sessionTime * 60;
+              window.breakTimeCount = breakTime * 60;
 
-              if (signal.current === 'break') {
-                if (window.breakTimeCount - 1 >= 0) {
-                  window.breakTimeCount--;
-                  setRemainigBreakTime(window.breakTimeCount);
-                } else {
-                  console.log(signal.current, window.breakTimeCount);
-                  setSessionState('session');
-                  signal.current = 'session';
-                  setRemainigBreakTime(breakTime * 60);
-                  window.breakTimeCount = breakTime * 60;
+              const ref = window.setInterval(() => {
+                //console.log();
+
+                if (window.clockIsRunning === 'running') {
+                  if (signal.current === 'session') {
+                    if (window.sessionTimeCount - 1 >= 0) {
+                      window.sessionTimeCount--;
+                      setRemainingSessionTime(window.sessionTimeCount);
+                    } else {
+                      console.log(signal.current, window.sessionTimeCount);
+                      setSessionState('break');
+                      signal.current = 'break';
+                      setRemainingSessionTime(sessionTime * 60);
+                      window.sessionTimeCount = sessionTime * 60;
+                    }
+                  }
+
+                  if (signal.current === 'break') {
+                    if (window.breakTimeCount - 1 >= 0) {
+                      window.breakTimeCount--;
+                      setRemainigBreakTime(window.breakTimeCount);
+                    } else {
+                      console.log(signal.current, window.breakTimeCount);
+                      setSessionState('session');
+                      signal.current = 'session';
+                      setRemainigBreakTime(breakTime * 60);
+                      window.breakTimeCount = breakTime * 60;
+                    }
+                  }
                 }
-              }
-            }, 1000);
-            refToSetInterval.current = ref;
+              }, 1000);
+              refToSetInterval.current = ref;
+            }
           }}
         >
           <i className="fas fa-play">start</i>
@@ -191,6 +203,8 @@ function App() {
             window.sessionTimeCount = 25 * 60;
             window.breakTimeCount = 5 * 60;
             setSessionState('session');
+            refToSetInterval.current = undefined;
+            window.clockIsRunning = undefined;
           }}
         >
           <i className="fas fa-sync-alt">clear</i>
