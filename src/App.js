@@ -128,6 +128,9 @@ function App() {
 
       <div className="timer-container">
         <h2 id="timer-label">{sessionState === 'session' ? 'Session' : 'Break'}</h2>
+
+        <audio id="beep" preload="auto" src="https://goo.gl/65cBl1" />
+
         <h1 id="time-left">
           {sessionState === 'session' ? timeFormatter(remainigSessionTime) : timeFormatter(remainigBreakTime)}
         </h1>
@@ -150,7 +153,7 @@ function App() {
               window.breakTimeCount = breakTime * 60;
 
               const ref = window.setInterval(() => {
-                //console.log();
+                const refToAudioTag = document.getElementById('beep');
 
                 if (window.clockIsRunning === 'running') {
                   if (signal.current === 'session') {
@@ -158,6 +161,7 @@ function App() {
                       window.sessionTimeCount--;
                       setRemainingSessionTime(window.sessionTimeCount);
                     } else {
+                      refToAudioTag.play();
                       console.log(signal.current, window.sessionTimeCount);
                       setSessionState('break');
                       signal.current = 'break';
@@ -171,6 +175,7 @@ function App() {
                       setRemainigBreakTime(window.breakTimeCount);
                       window.breakTimeCount--;
                     } else {
+                      refToAudioTag.play();
                       console.log(signal.current, window.breakTimeCount);
                       setSessionState('session');
                       signal.current = 'session';
@@ -205,6 +210,10 @@ function App() {
             setSessionState('session');
             refToSetInterval.current = undefined;
             window.clockIsRunning = undefined;
+
+            const refToAudioTag = document.getElementById('beep');
+            refToAudioTag.pause();
+            refToAudioTag.currentTime = 0;
           }}
         >
           <i className="fas fa-sync-alt">clear</i>
